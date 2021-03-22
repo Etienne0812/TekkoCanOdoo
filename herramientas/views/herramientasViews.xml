@@ -1,0 +1,169 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="herramientas.herramientas_tree">
+      <field name="name">herramientas.herramientas.tree</field>
+      <field name="model">herramientas.herramientas</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="tipo"/>
+          <field name="descripcion"/>
+          <field name="prod_id"/>
+          <field name="user"/>
+          <field name = "tarea"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="herramientas.herramientas_form">
+      <field name="name">herramientas.herramientas.form</field>
+      <field name="model">herramientas.herramientas</field>
+      <field name="arch" type="xml">
+        <form>
+          <group colspan="2" col="2">
+            <field name="name"/>
+            <field name="tipo"/>
+            <field name="descripcion"/>
+            <field name="prod_id"/>
+            <field name="user"/>
+            <field name = "tarea"/>
+          </group>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+            <field name="activity_ids" widget="mail_activity"/>
+            <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record id="res_partner_view_form_inherit_herramientas" model = "ir.ui.view">	
+            <field name="name">res.partner.view.form.inherit.herramientas</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='internal_notes']" position = "after">
+                    <page string="Herramientas" name="Lista_de_herramientas">
+                        <field name ="herramientas">
+                            <tree>
+                                <field name="name"/>
+                                <field name="tipo"/>
+                                <field name="descripcion"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="project_task_view_form_inherit_herramientas" model = "ir.ui.view">	
+            <field name="name">project.task.view.form.inherit.herramientas</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='extra_info']" position = "after">
+                    <page string="Herramientas" name="Lista_de_herramientas">
+                        <field name ="herramientas" widget = "many2many">
+                            <tree>
+                                <field name="name"/>
+                                <field name="tipo"/>
+                                <field name="descripcion"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="product_template_view_form_inherit_tareas" model = "ir.ui.view">	
+            <field name="name">project.task.view.form.inherit.tareas</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='extra_info']" position = "after">
+                    <page string="Productos necesarios" name="Lista_de_productos">
+                        <field name ="producto">
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="project_task_view_form_inherit_invoice" model = "ir.ui.view">	
+            <field name="name">project.task.view.form.inherit.facturas</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='extra_info']" position = "after">
+                    <page string="Factura" name="Factura">
+                        <field name ="factura">
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+    </record>
+   
+   <!--Filters-->
+    <record id="filter_herramientas_type" model="ir.filters">
+      <field name="name">Por tipo de herramienta</field>
+      <field name="model_id">herramientas.herramientas</field>
+      <field name="user_id" eval="False"/>
+      <field name="context">{'group_by': ['tipo']}</field>
+    </record>
+
+    <record id="view_herramientas_tareas_filter" model="ir.ui.view">
+      <field name="name">herramientas.herramientas.select</field>
+      <field name="model">herramientas.herramientas</field>
+      <field name="arch" type="xml">
+         <search string="Search Invoice">
+          <filter name="unasigned" string="No asignadas" domain="[('tarea', '=', False)]"/>
+          <filter name="asigned" string="Asignadas" domain="[('tarea', '!=', False)]"/>
+         </search>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="herramientas.herramientas_action_window">
+      <field name="name">herramientas</field>
+      <field name="res_model">herramientas.herramientas</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="herramientas.action_server">
+      <field name="name">herramientas server</field>
+      <field name="model_id" ref="model_herramientas_herramientas"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    
+    <menuitem name="herramientas" id="herramientas.menu_root"/>
+   
+    <!-- menu categories -->
+    <menuitem name="Herramientas" id="herramientas.herramientas_menu" parent="herramientas.menu_root"/>
+
+    <menuitem name="Herramientas" id="herramientas.herramientas_menu_herramientas" parent="herramientas.herramientas_menu" action = "herramientas.herramientas_action_window"/>
+    
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="herramientas.menu_1_list" parent="herramientas.menu_1"
+              action="herramientas.action_window"/>
+    <menuitem name="Server to list" id="herramientas" parent="herramientas.menu_2"
+              action="herramientas.action_server"/>
+    -->
+  </data>
+</odoo>

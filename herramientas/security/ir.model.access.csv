@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_herramientas_herramientas_gestor,herramientas.herramientas.gestor,model_herramientas_herramientas,herramientas.group_gestor,1,1,1,1
+access_herramientas_herramientas_operario,herramientas.herramientas.operario,model_herramientas_herramientas,herramientas.group_operario,1,0,0,0
+access_herramientas_horas_operario,herramientas.horas.operario,model_herramientas_horas,herramientas.group_operario,1,1,1,0
+access_herramientas_horas_gestor,herramientas.horas.gestor,model_herramientas_horas,herramientas.group_gestor,1,1,1,1
+
